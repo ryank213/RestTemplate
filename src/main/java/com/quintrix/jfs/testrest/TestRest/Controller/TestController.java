@@ -22,19 +22,19 @@ public class TestController {
 	@GetMapping("/students")
 	public String home() {
 		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/students", String.class);
-		return response.getBody() + "\n" + response.getStatusCode() + "\n" + response.getStatusCodeValue();
+		return response.getStatusCode() + "\n" + response.getBody();
 	}
 	
 	@PostMapping("/students")
 	public String postStudent(@RequestBody Student student) {
-		HttpEntity<Student> request = new HttpEntity<Student>(student);
-		return restTemplate.postForObject("http://localhost:8080/students", request, String.class);
+		HttpEntity<Student> http = new HttpEntity<Student>(student);
+		return restTemplate.postForObject("http://localhost:8080/students", http, String.class);
 	}
 	
 	@PutMapping("/students")
 	public void updateStudent(@RequestBody Student student) {
-		HttpEntity<Student> request = new HttpEntity<Student>(student);
-		restTemplate.put("http://localhost:8080/students", request);
+		HttpEntity<Student> http = new HttpEntity<Student>(student);
+		restTemplate.put("http://localhost:8080/students", http);
 	}
 	
 	@DeleteMapping("/students/{id}")
