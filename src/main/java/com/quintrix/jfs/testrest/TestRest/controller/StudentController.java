@@ -1,4 +1,6 @@
-package com.quintrix.jfs.testrest.TestRest.Controller;
+package com.quintrix.jfs.testrest.TestRest.controller;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -11,34 +13,33 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import com.quintrix.jfs.testrest.TestRest.Model.Student;
+
+import com.quintrix.jfs.testrest.TestRest.model.Student;
+import com.quintrix.jfs.testrest.TestRest.service.StudentService;
 
 @RestController
-public class TestController {
+public class StudentController {
 	
 	@Autowired
-	RestTemplate restTemplate;
+	StudentService studentService;
 	
 	@GetMapping("/students")
-	public String home() {
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/students", String.class);
-		return response.getStatusCode() + "\n" + response.getBody();
+	public List<Student> getStudents() {
+		return studentService.getAllStudents();
 	}
 	
 	@PostMapping("/students")
-	public String postStudent(@RequestBody Student student) {
-		HttpEntity<Student> http = new HttpEntity<Student>(student);
-		return restTemplate.postForObject("http://localhost:8080/students", http, String.class);
+	public Student postStudent(@RequestBody Student student) {
+		return studentService.postStudent(student);
 	}
 	
 	@PutMapping("/students")
 	public void updateStudent(@RequestBody Student student) {
-		HttpEntity<Student> http = new HttpEntity<Student>(student);
-		restTemplate.put("http://localhost:8080/students", http);
+		studentService.updateStudent(student);
 	}
 	
 	@DeleteMapping("/students/{id}")
 	public void deleteStudent(@PathVariable int id) {
-		restTemplate.delete("http://localhost:8080/students/" + id);
+		studentService.deleteStudent(id);
 	}
 }

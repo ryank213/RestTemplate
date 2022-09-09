@@ -1,4 +1,4 @@
-package com.quintrix.jfs.testrest.TestRest.Model;
+package com.quintrix.jfs.testrest.TestRest.model;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
